@@ -1,18 +1,18 @@
-CXX=g++
-CXXFLAGS=-march=native -O2 
+CXX = g++
+CXXFLAGS = -march=native -O2
 LDFLAGS = -lm -lfftw3 -fopenmp
 
-EXECUTABLE_NAME=test
+EXECUTABLE_NAME=main
 
 # Folders
-BIN=../Output/bin
-OBJ=$(BIN)/obj
+BIN = ../Output/bin
+OBJ = $(BIN)/obj
 
 # Files
 SOURCE_FILES=\
     main.cpp \
     ket.cpp \
-    position.cpp 
+    position.cpp
 
 EXECUTABLE_FILES = $(EXECUTABLE_NAME:%=$(BIN)/%)
 OBJECT_FILES     = $(SOURCE_FILES:%.cpp=$(OBJ)/%.o)
@@ -23,7 +23,6 @@ build: $(EXECUTABLE_FILES)
 
 clean:
 	rm -r -f $(BIN)
-	@# ^^^ I don't recommend suppressing the echoing of the command using @
 
 # http://www.gnu.org/software/make/manual/make.html#Phony-Targets
 .PHONY: build clean

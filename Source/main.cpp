@@ -1,4 +1,4 @@
-/** 
+/**
  * Schrodinger equation integrator
  *
  */
@@ -13,6 +13,7 @@
 const double h = 1;
 const double d = 1;
 const double k0 = 1;
+const std::complex<double> I(0.,1.);
 
 int main(int argc, char *argv[])
 {
@@ -31,6 +32,6 @@ int main(int argc, char *argv[])
 		out << '\n';
 		break;
 	}
-	
+
 	return 0;
 }

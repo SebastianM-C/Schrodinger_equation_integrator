@@ -23,9 +23,8 @@ Ket::Ket(double a, double b, double simTime, unsigned int N, unsigned int M)
 		//p->z = z;
 
 		// create initial probability distribution
-		p->fx.real(1 / (d*pow(M_PI, (double)0.25)) * exp(-x*x / (2 * d*d)) * cos(k0*x));
-		p->fx.imag(1 / (d*pow(M_PI, (double)0.25)) * exp(-x*x / (2 * d*d)) * sin(k0*x));
-		
+		p->fx = 1 / (d*pow(M_PI, (double)0.25)) * exp(I*k0*x -x*x / (2 * d*d));
+
 		r[i] = p;
 	}
 }
@@ -62,7 +61,7 @@ void Ket::timeEvolution()
 {
 	fftw_plan p;
 	fftw_complex *in, *out;
-	int N = size;
+	unsigned int N = size;
 
 	in = (fftw_complex*)fftw_malloc(sizeof(fftw_complex) * N);
 	out = (fftw_complex*)fftw_malloc(sizeof(fftw_complex) * N);
@@ -72,7 +71,7 @@ void Ket::timeEvolution()
 
 	for (unsigned int i = 0; i < N; i++)
 	{
-		// TODO: something 
+		// TODO: something
 	}
 
 	fftw_destroy_plan(p);
@@ -83,7 +82,7 @@ void Ket::timeEvolution()
 
 std::ostream& operator << (std::ostream& out, const Ket& psi)
 {
-	int N = psi.size;
+	unsigned int N = psi.size;
 	for (unsigned int i = 0; i < N; i++)
 	{
 		out << psi.r[i]->x << ' ' << std::norm(psi.r[i]->fx) << '\n';
