@@ -1,0 +1,13 @@
+UseTab: Always
+IndentWidth: 2
+TabWidth: 2
+BreakBeforeBraces: Allman
+AllowShortIfStatementsOnASingleLine: false
+IndentCaseLabels: false
+ColumnLimit: 0
+AlignTrailingComments: true
+Language: Cpp
+NamespaceIndentation: All
+SpaceBeforeAssignmentOperators: true
+Standard: Cpp11
+SpaceBeforeParens: ControlStatements

@@ -11,7 +11,7 @@ Ket::Ket(double a, double b, double simTime, unsigned int N, unsigned int M)
 	dt = simTime / M;
 	r = new Position*[N];
 
-	#pragma omp simd
+#pragma omp simd
 	for (unsigned int i = 0; i < size; i++)
 	{
 		p = new (std::nothrow) Position;
@@ -23,7 +23,7 @@ Ket::Ket(double a, double b, double simTime, unsigned int N, unsigned int M)
 		//p->z = z;
 
 		// create initial probability distribution
-		p->fx = 1 / (d*pow(M_PI, (double)0.25)) * exp(I*k0*x -x*x / (2 * d*d));
+		p->fx = 1 / (d * pow(M_PI, (double)0.25)) * exp(I * k0 * x - x * x / (2 * d * d));
 
 		r[i] = p;
 	}

@@ -12,8 +12,8 @@ class Ket
 public:
 	Ket(double, double, double, unsigned int, unsigned int);
 	~Ket();
-	void print(std::ostream&, int=0) const;
-	friend std::ostream& operator << (std::ostream&, const Ket&);
+	void print(std::ostream &, int = 0) const;
+	friend std::ostream &operator<<(std::ostream &, const Ket &);
 	void timeEvolution();
 
 private:
