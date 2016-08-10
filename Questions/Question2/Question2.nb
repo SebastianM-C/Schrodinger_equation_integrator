@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[      5806,        179]
-NotebookOptionsPosition[      5308,        157]
-NotebookOutlinePosition[      5686,        173]
-CellTagsIndexPosition[      5643,        170]
+NotebookDataLength[      5925,        181]
+NotebookOptionsPosition[      5426,        159]
+NotebookOutlinePosition[      5804,        175]
+CellTagsIndexPosition[      5761,        172]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -30,21 +30,23 @@ Cell[BoxData[
      FractionBox[
       SuperscriptBox[
        RowBox[{"(", 
-        RowBox[{
-         SuperscriptBox["x", "2"], "-", "\[Beta]"}], ")"}], "2"], 
-      "\[Gamma]"]}]], 
+        RowBox[{"x", "-", "\[Beta]"}], ")"}], "2"], "\[Gamma]"]}]], 
    RowBox[{"\[DifferentialD]", "x"}]}]}]], "Input",
  CellChangeTimes->{{3.679768749548154*^9, 3.679768751713942*^9}, {
   3.6797688411700253`*^9, 3.679768860024475*^9}, {3.67976889921556*^9, 
-  3.6797689341020145`*^9}}],
+  3.6797689341020145`*^9}, {3.6798356413338785`*^9, 3.6798356422838707`*^9}}],
 
 Cell[BoxData[
  RowBox[{"ConditionalExpression", "[", 
-  RowBox[{"0", ",", 
+  RowBox[{
+   RowBox[{
+    SqrtBox["\[Pi]"], " ", "\[Beta]", " ", 
+    SqrtBox["\[Gamma]"]}], ",", 
    RowBox[{
     RowBox[{"Re", "[", "\[Gamma]", "]"}], "\[GreaterEqual]", "0"}]}], 
   "]"}]], "Output",
- CellChangeTimes->{3.6797689362141128`*^9, 3.679825666036683*^9}]
+ CellChangeTimes->{3.6797689362141128`*^9, 3.679825666036683*^9, 
+  3.6798356550876737`*^9}]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -173,17 +175,16 @@ CellTagsIndex->{}
 (*NotebookFileOutline
 Notebook[{
 Cell[CellGroupData[{
-Cell[580, 22, 574, 16, 77, "Input"],
-Cell[1157, 40, 243, 6, 36, "Output"]
+Cell[580, 22, 586, 14, 76, "Input"],
+Cell[1169, 38, 349, 10, 76, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[1437, 51, 2016, 56, 212, "Input"],
-Cell[3456, 109, 1483, 38, 75, "Output"],
-Cell[4942, 149, 350, 5, 69, "Output"]
+Cell[1555, 53, 2016, 56, 212, "Input"],
+Cell[3574, 111, 1483, 38, 75, "Output"],
+Cell[5060, 151, 350, 5, 36, "Output"]
 }, Open  ]]
 }
 ]
 *)
 
 (* End of internal cache information *)
-
