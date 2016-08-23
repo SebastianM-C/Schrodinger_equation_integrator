@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[      5648,        159]
-NotebookOptionsPosition[      5300,        142]
-NotebookOutlinePosition[      5675,        158]
-CellTagsIndexPosition[      5632,        155]
+NotebookDataLength[      7566,        207]
+NotebookOptionsPosition[      7178,        189]
+NotebookOutlinePosition[      7553,        205]
+CellTagsIndexPosition[      7510,        202]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -29,7 +29,11 @@ Cell[BoxData[{
   RowBox[{
    SubscriptBox["k", "0"], "=", "1"}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
-  RowBox[{"tmax", "=", "2"}], ";"}], "\[IndentingNewLine]", 
+  RowBox[{
+   SubscriptBox["x", "0"], "=", 
+   RowBox[{"-", ".5"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"tmax", "=", "10"}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"m", "=", "1"}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
@@ -45,21 +49,21 @@ Cell[BoxData[{
    RowBox[{
     FractionBox[
      SuperscriptBox["A", "2"], 
-     SuperscriptBox[
-      RowBox[{"(", 
-       RowBox[{"1", "+", 
-        SuperscriptBox[
-         RowBox[{"(", 
-          FractionBox[
-           RowBox[{"\[HBar]", " ", "t"}], 
-           RowBox[{"m", " ", 
-            SuperscriptBox["d", "2"]}]], ")"}], "2"]}], ")"}], "2"]], 
+     SqrtBox[
+      RowBox[{"1", "+", 
+       SuperscriptBox[
+        RowBox[{"(", 
+         FractionBox[
+          RowBox[{"\[HBar]", " ", "t"}], 
+          RowBox[{"m", " ", 
+           SuperscriptBox["d", "2"]}]], ")"}], "2"]}]]], 
     RowBox[{"Exp", "[", 
      RowBox[{"-", 
       FractionBox[
        SuperscriptBox[
         RowBox[{"(", 
          RowBox[{"x", "-", 
+          SubscriptBox["x", "0"], "-", 
           RowBox[{
            FractionBox[
             RowBox[{"\[HBar]", " ", 
@@ -83,7 +87,7 @@ Cell[BoxData[{
       RowBox[{"x", ",", "t"}], "]"}], ",", 
      RowBox[{"{", 
       RowBox[{"x", ",", 
-       RowBox[{"-", "3"}], ",", "5"}], "}"}], ",", 
+       RowBox[{"-", "5"}], ",", "20"}], "}"}], ",", 
      RowBox[{"PlotRange", "\[Rule]", 
       RowBox[{"{", 
        RowBox[{"0", ",", "0.6"}], "}"}]}]}], "]"}], ",", 
@@ -100,7 +104,15 @@ Cell[BoxData[{
    3.677517962205411*^9, 3.6775179701135244`*^9}, 3.6775193951974277`*^9, 
    3.677519466951698*^9, {3.6775737433354015`*^9, 3.6775737491017213`*^9}, {
    3.6775739206749983`*^9, 3.6775739216190357`*^9}, {3.6775739913587074`*^9, 
-   3.677573993390851*^9}, {3.6775740678183804`*^9, 3.677574069123991*^9}}],
+   3.677573993390851*^9}, {3.6775740678183804`*^9, 3.677574069123991*^9}, {
+   3.679836722912391*^9, 3.679836739771031*^9}, {3.679836912717824*^9, 
+   3.679836960560995*^9}, {3.6798414592378273`*^9, 3.6798414845143957`*^9}, {
+   3.679841718973025*^9, 3.6798417195291586`*^9}, {3.6798423663543158`*^9, 
+   3.6798423678545074`*^9}, 3.6798455704765415`*^9, {3.679845805349649*^9, 
+   3.6798458304906807`*^9}, {3.6798458816275215`*^9, 
+   3.6798459260320644`*^9}, {3.6798459715184956`*^9, 
+   3.6798459725967665`*^9}, {3.679853345045388*^9, 3.679853406365347*^9}, {
+   3.6798534391361265`*^9, 3.679853456032275*^9}}],
 
 Cell[BoxData[
  TagBox[
@@ -109,21 +121,21 @@ Cell[BoxData[
     Typeset`bookmarkList$$ = {}, Typeset`bookmarkMode$$ = "Menu", 
     Typeset`animator$$, Typeset`animvar$$ = 1, Typeset`name$$ = 
     "\"untitled\"", Typeset`specs$$ = {{
-      Hold[$CellContext`t$$], 0, 2}}, Typeset`size$$ = {540., {176., 187.}}, 
+      Hold[$CellContext`t$$], 0, 10}}, Typeset`size$$ = {540., {176., 187.}}, 
     Typeset`update$$ = 0, Typeset`initDone$$, Typeset`skipInitDone$$ = 
-    True, $CellContext`t$956$$ = 0}, 
+    True, $CellContext`t$242001$$ = 0}, 
     DynamicBox[Manipulate`ManipulateBoxes[
      1, StandardForm, "Variables" :> {$CellContext`t$$ = 0}, 
       "ControllerVariables" :> {
-        Hold[$CellContext`t$$, $CellContext`t$956$$, 0]}, 
+        Hold[$CellContext`t$$, $CellContext`t$242001$$, 0]}, 
       "OtherVariables" :> {
        Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
         Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
         Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
          Typeset`skipInitDone$$}, "Body" :> Plot[
         $CellContext`\[Rho][$CellContext`x, $CellContext`t$$], \
-{$CellContext`x, -3, 5}, PlotRange -> {0, 0.6}], 
-      "Specifications" :> {{$CellContext`t$$, 0, 2}}, "Options" :> {}, 
+{$CellContext`x, -5, 20}, PlotRange -> {0, 0.6}], 
+      "Specifications" :> {{$CellContext`t$$, 0, 10}}, "Options" :> {}, 
       "DefaultOptions" :> {}],
      ImageSizeCache->{612., {240., 249.}},
      SingleEvaluation->True],
@@ -137,8 +149,43 @@ Cell[BoxData[
    StripOnInput->False],
   Manipulate`InterpretManipulate[1]]], "Output",
  CellChangeTimes->{{3.6775741545008373`*^9, 3.6775741927819357`*^9}, 
-   3.6775742603825836`*^9, {3.6775742986773367`*^9, 3.677574308630455*^9}}]
-}, Open  ]]
+   3.6775742603825836`*^9, {3.6775742986773367`*^9, 3.677574308630455*^9}, {
+   3.6798367548097105`*^9, 3.6798367782685966`*^9}, {3.6798369167413187`*^9, 
+   3.6798369614589167`*^9}, 3.6798414893833275`*^9, 3.6798417199596753`*^9, 
+   3.6798423684435043`*^9, 3.6798455712457223`*^9, {3.6798458105778213`*^9, 
+   3.6798458315077047`*^9}, {3.6798458822841377`*^9, 3.6798458972073555`*^9}, 
+   3.67984592767912*^9, 3.6798459735996103`*^9, {3.679853350494879*^9, 
+   3.679853407148303*^9}, {3.6798534401308365`*^9, 3.6798534564772625`*^9}}]
+}, Open  ]],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"\[CapitalDelta]", "[", "t_", "]"}], "=", 
+  RowBox[{
+   SuperscriptBox[
+    SubscriptBox["x", "0"], "2"], "+", 
+   RowBox[{"2", 
+    SubscriptBox["x", "0"], 
+    FractionBox[
+     RowBox[{"\[HBar]", " ", 
+      SubscriptBox["k", "0"]}], "m"], "t"}], "+", 
+   RowBox[{
+    FractionBox[
+     SuperscriptBox["d", "2"], "2"], 
+    RowBox[{"(", 
+     RowBox[{"1", "+", 
+      SuperscriptBox[
+       RowBox[{"(", 
+        FractionBox[
+         RowBox[{"\[HBar]", " ", "t"}], 
+         RowBox[{"m", " ", 
+          SuperscriptBox["d", "2"]}]], ")"}], "2"]}], 
+     ")"}]}]}]}], "\[IndentingNewLine]", 
+ RowBox[{"\[Tau]", "=", 
+  RowBox[{
+   RowBox[{"-", "2"}], 
+   SubscriptBox["x", "0"], 
+   SubscriptBox["k", "0"]}]}]}], "Input"]
 },
 WindowSize->{958, 988},
 WindowMargins->{{Automatic, -7}, {Automatic, 0}},
@@ -158,9 +205,10 @@ CellTagsIndex->{}
 (*NotebookFileOutline
 Notebook[{
 Cell[CellGroupData[{
-Cell[580, 22, 2955, 80, 392, "Input"],
-Cell[3538, 104, 1746, 35, 546, "Output"]
-}, Open  ]]
+Cell[580, 22, 3600, 92, 450, "Input"],
+Cell[4183, 116, 2216, 41, 513, "Output"]
+}, Open  ]],
+Cell[6414, 160, 760, 27, 104, "Input"]
 }
 ]
 *)
