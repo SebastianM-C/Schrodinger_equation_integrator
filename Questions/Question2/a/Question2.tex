@@ -1,0 +1,172 @@
+% !TEX TS-program = pdflatex
+% !TEX encoding = UTF-8 Unicode
+
+% This is a simple template for a LaTeX document using the "article" class.
+% See "book", "report", "letter" for other types of document.
+
+\documentclass[11pt]{article} % use larger type; default would be 10pt
+
+
+\usepackage[utf8]{inputenc} % set input encoding (not needed with XeLaTeX)
+
+%%% Examples of Article customizations
+% These packages are optional, depending whether you want the features they provide.
+% See the LaTeX Companion or other references for full information.
+
+%%% PAGE DIMENSIONS
+\usepackage{geometry} % to change the page dimensions
+\geometry{a4paper} % or letterpaper (US) or a5paper or....
+% \geometry{margin=2in} % for example, change the margins to 2 inches all round
+% \geometry{landscape} % set up the page for landscape
+%   read geometry.pdf for detailed page layout information
+
+\usepackage{graphicx} % support the \includegraphics command and options
+
+% \usepackage[parfill]{parskip} % Activate to begin paragraphs with an empty line rather than an indent
+
+%%% PACKAGES
+\usepackage{booktabs} % for much better looking tables
+\usepackage{array} % for better arrays (eg matrices) in maths
+\usepackage{paralist} % very flexible & customisable lists (eg. enumerate/itemize, etc.)
+\usepackage{verbatim} % adds environment for commenting out blocks of text & for better verbatim
+\usepackage{subfig} % make it possible to include more than one captioned figure/table in a single float
+% These packages are all incorporated in the memoir class to one degree or another...
+
+\usepackage{amssymb,amsmath}
+\usepackage{amsfonts}
+
+\usepackage{physics}
+
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+
+
+
+%%% HEADERS & FOOTERS
+\usepackage{fancyhdr} % This should be set AFTER setting up the page geometry
+\pagestyle{fancy} % options: empty , plain , fancy
+\renewcommand{\headrulewidth}{0pt} % customise the layout...
+\lhead{}\chead{}\rhead{}
+\lfoot{}\cfoot{\thepage}\rfoot{}
+
+%%% SECTION TITLE APPEARANCE
+\usepackage{sectsty}
+\allsectionsfont{\sffamily\mdseries\upshape} % (See the fntguide.pdf for font help)
+% (This matches ConTeXt defaults)
+
+%%% ToC (table of contents) APPEARANCE
+\usepackage[nottoc,notlof,notlot]{tocbibind} % Put the bibliography in the ToC
+\usepackage[titles,subfigure]{tocloft} % Alter the style of the Table of Contents
+\renewcommand{\cftsecfont}{\rmfamily\mdseries\upshape}
+\renewcommand{\cftsecpagefont}{\rmfamily\mdseries\upshape} % No bold!
+
+\newcommand*{\mathcolor}{}
+\def\mathcolor#1#{\mathcoloraux{#1}}
+\newcommand*{\mathcoloraux}[3]{%
+  \protect\leavevmode
+  \begingroup
+    \color#1{#2}#3%
+  \endgroup
+}
+
+\newcommand*\mean[1]{\overline{#1}}
+\newcommand{\integral}{\int\limits_{-\infty}^{\infty}}
+
+%%% END Article customizations
+
+%%% The "real" document content comes below...
+
+\title{Question 2}
+%\author{The Author}
+\date{} % Activate to display a given date or no date (if empty),
+         % otherwise the current date is printed
+
+\begin{document}
+\maketitle
+
+\section{\(Q_x\) in reprezentarea pozitiilor}
+\label{sec:Qx-x}
+
+\begin{align*}
+  \mean{\Delta Q_x^2} &= (\mean{Q_x^2}) - (\mean{Q_x})^2 \\
+  \mean{Q_x} &= \expval{Q_x}{\Psi} =
+    \integral \bra{\Psi}Q_x\ket{x}\braket{x}{\Psi}dx =
+    \integral \bra{\Psi}x\ket{x}\braket{x}{\Psi}dx =
+    \integral x \abs{\braket{x}{\Psi}}^2 dx \\ &=
+    \integral x \abs{\Psi(x)}^2 dx \\
+  \mean{Q_x^2} &= \expval{Q_x^2}{\Psi} =
+    \integral x^2 \abs{\Psi(x)}^2 dx \\
+  \abs{\Psi(x)}^2 &= \frac{\abs{A}^2}{\sqrt{1+\qty(\frac{\hbar t}{m d^2})^2}}
+    \exp\qty[- \frac{\qty(x - \frac{\hbar k_0}{m} t)^2}{d^2 \qty[1 + \qty(\frac{\hbar t}{m d^2})^2]}] \\
+\end{align*}
+\(
+  \text{Not. } \alpha = \frac{\abs{A}^2}{\sqrt{1+\qty(\frac{\hbar t}{m d^2})^2}},
+    \beta = \frac{\hbar k_0}{m} t, \gamma = d^2 \qty[1 + \qty(\frac{\hbar t}{m d^2})^2]
+\)
+\begin{align*}
+  \abs{\Psi(x)}^2 &= \alpha \exp\qty[- \frac{\qty(x-\beta)^2}{\gamma}] \\
+  \mean{Q_x} &= \alpha \integral x \exp\qty[- \frac{\qty(x-\beta)^2}{\gamma}] dx
+    = \alpha \beta \sqrt{\gamma \pi} = \frac{\hbar k_0}{m} t \\
+  \mean{Q_x^2} &= \alpha \integral x^2 \exp\qty[- \frac{\qty(x-\beta)^2}{\gamma}] dx
+    = \alpha \sqrt{\gamma \pi} \qty(\frac{\gamma}{2} + \beta^2)
+    = \frac{d^2}{2}\qty[1 + \qty(\frac{\hbar t}{m d^2})^2] + \frac{\hbar^2 k_0^2}{m^2} t^2 \\
+  \mean{\Delta Q_x^2} &= \frac{d^2}{2}\qty[1 + \qty(\frac{\hbar t}{m d^2})^2] 
+\end{align*}
+
+\section{\(Q_x\) in reprezentarea impulsurilor}
+\label{sec:Qx-p}
+
+\begin{align*}
+  \mean{Q_x} &= \expval{Q_x}{\Psi} =
+    \integral \bra{\Psi}Q_x\ket{p}\braket{p}{\Psi}dp =
+    \integral \Phi^*(p) i \hbar \pdv{p} \Phi(p) dp =
+    \qty(\mean{Q_x})_0 + \frac{t}{m}\mean{P_x}
+\end{align*}
+
+\section{\(\mean{Q_x^2}\)}
+\label{sec:Qx2}
+
+\begin{equation}
+\label{eq:Qx}
+  \mean{Q_x^2} = \expval{Q_x^2}{\Psi} = -\hbar^2 \integral \Phi^*(p) \pdv[2]{p} \Phi(p) dp
+\end{equation}
+
+\begin{align*}
+  \Phi(p) &= \varphi(p) \exp\qty(- \frac{i p^2}{2\hbar m} t) \\
+  \Phi^*(p) &= \varphi^*(p) \exp\qty(\frac{i p^2}{2\hbar m} t) \\
+  \pdv{p} \Phi(p) &= \qty(\pdv{\varphi}{p} - \frac{i p}{\hbar m} t \varphi)
+    \exp\qty(- \frac{i p^2}{2\hbar m} t) \\
+  \pdv[2]{p} \Phi(p) &= \qty(\pdv[2]{\varphi}{p} - \frac{i}{m \hbar} t \varphi
+    - 2\frac{i p}{m \hbar} t \pdv{\varphi}{p} - \frac{p^2}{\hbar^2 m^2} t^2 \varphi)
+    \exp\qty(- \frac{i p^2}{2\hbar m} t) \\
+  \mean{Q_x^2} &= -\hbar^2 \integral \varphi^* \pdv[2]{\varphi}{p}
+    - \frac{i}{m \hbar} t \abs{\varphi}^2 - 2\frac{i p}{m \hbar} t \varphi^* \pdv{\varphi}{p}
+    - \frac{p^2}{\hbar^2 m^2} t^2 \abs{\varphi}^2 dp \\ &=
+  \qty(\mean{Q_x^2})_0
+    + \frac{i \hbar}{m} t \integral \qty(\mathcolor{red}{\abs{\varphi}^2 + 2p\varphi* \pdv{\varphi}{p}}) dp
+    + \frac{t^2}{m^2} \mean{P_x^2} \\
+\end{align*}
+Integrand prin parti (\ref{eq:Qx}) obtinem:
+\begin{align*}
+  \mean{Q_x^2} &= \hbar^2 \integral \pdv{\Phi^*}{p} \pdv{\Phi}{p} dp \\ &=
+    \qty(\mean{Q_x^2})_0
+    + \frac{i \hbar}{m} t \integral p \qty(\varphi^* \pdv{\varphi}{p} - \pdv{\varphi^*}{p}\varphi)dp
+    + \frac{t^2}{m^2} \mean{P_x^2} \\
+\end{align*}
+
+
+
+{\color{PineGreen} Problema ta cea mai mare e ca vrei sa calculezi media unei observabile si pui in evidenta o parte complexa :) :) :).
+
+Pe scurt, partea imaginara, care nu e OK se prelucreaza astfel:
+
+\begin{align}
+\int dp 2p\phi^*(p)\frac{\partial\phi}{\partial p}=\int dp p \frac{\partial}{\partial p}\left(|\phi(p)|^2\right)=-\int dp \frac{\partial p}{\partial p}|\phi(p)|^2
+\end{align}
+adica ce aveai tu scris cu rosu se anuleaza. Cum ziceam, trebuia sa-ti dea de gandit in primul rand partea imaginara in medie.
+In afara de asta, ce am scris aici e in esenta consecinta faptului ca $Q$ este autoadjunct, adica media ta TREBUIE sa poata fi scrisa
+\begin{align}
+\langle \Psi|Q^2|\Psi\rangle\equiv\langle Q\Psi|Q\Psi\rangle\equiv\int dp {\vline i\hbar\frac{\partial\Phi}{\partial p}\vline}^2\in {\bf R}
+\end{align}
+}
+
+\end{document}

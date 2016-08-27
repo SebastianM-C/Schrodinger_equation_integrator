@@ -5,14 +5,14 @@ LDFLAGS = -lm -lfftw3 -fopenmp
 EXECUTABLE_NAME=main
 
 # Folders
-BIN = ../Output/bin
-OBJ = $(BIN)/obj
+BIN = ../Bin
+OBJ = $(BIN)/Obj
 
 # Files
 SOURCE_FILES=\
     main.cpp \
-    ket.cpp \
-    position.cpp
+    Ket.cpp \
+    Representation.cpp
 
 EXECUTABLE_FILES = $(EXECUTABLE_NAME:%=$(BIN)/%)
 OBJECT_FILES     = $(SOURCE_FILES:%.cpp=$(OBJ)/%.o)

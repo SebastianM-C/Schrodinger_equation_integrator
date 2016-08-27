@@ -3,7 +3,8 @@
 #define _USE_MATH_DEFINES
 #include <cmath>
 #include <ostream>
-#include "position.h"
+#include <cstring>
+#include "Representation.h"
 #include "common.h"
 #include <fftw3.h>
 
@@ -17,7 +18,10 @@ public:
 	void timeEvolution();
 
 private:
-	Position **r;
+	Representation **r, **p;
 	double dt;
 	const unsigned int size;
+	fftw_plan pForward;
+	fftw_plan pBackward;
+	fftw_complex *in, *out;
 };
