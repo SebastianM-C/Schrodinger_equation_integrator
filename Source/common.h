@@ -7,4 +7,5 @@
 extern const double h;
 extern const double d;
 extern const double k0;
+extern const double m;
 extern const std::complex<double> I;
