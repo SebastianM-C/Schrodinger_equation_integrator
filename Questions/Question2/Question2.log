@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/W32TeX) (preloaded format=pdflatex 2016.6.6)  10 AUG 2016 16:41
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/W32TeX) (preloaded format=pdflatex 2016.6.6)  10 AUG 2016 20:16
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1736,6 +1736,11 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 
 LaTeX Warning: No \author given.
 
+
+Overfull \hbox (1.7042pt too wide) in paragraph at lines 109--109
+[] 
+ []
+
 [1
 
 {c:/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2]
@@ -1743,7 +1748,7 @@ LaTeX Warning: No \author given.
 Here is how much of TeX's memory you used:
  12524 strings out of 493014
  219376 string characters out of 6137002
- 269633 words of memory out of 5000000
+ 270633 words of memory out of 5000000
  15951 multiletter control sequences out of 15000+600000
  13639 words of font info for 53 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -1762,7 +1767,7 @@ exlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/20
 16/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb><c:/texlive/2016/texmf-d
 ist/fonts/type1/public/amsfonts/symbols/msbm10.pfb><c:/texlive/2016/texmf-dist/
 fonts/type1/public/amsfonts/symbols/msbm7.pfb>
-Output written on Question2.pdf (2 pages, 124505 bytes).
+Output written on Question2.pdf (2 pages, 125132 bytes).
 PDF statistics:
  71 PDF objects out of 1000 (max. 8388607)
  51 compressed objects within 1 object stream

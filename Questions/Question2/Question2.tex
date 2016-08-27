@@ -91,17 +91,21 @@
     \integral x \abs{\Psi(x)}^2 dx \\
   \mean{Q_x^2} &= \expval{Q_x^2}{\Psi} =
     \integral x^2 \abs{\Psi(x)}^2 dx \\
-  \abs{\Psi(x)}^2 &= \frac{\abs{A}^2}{\qty[1+\qty(\frac{\hbar t}{m d^2})^2]^2}
-    \exp\qty[- \frac{\qty(x^2 - \frac{\hbar k_0}{m} t)^2}{d^2 \qty[1+\qty(\frac{\hbar t}{m d^2})^2]}] \\
+  \abs{\Psi(x)}^2 &= \frac{\abs{A}^2}{\sqrt{1+\qty(\frac{\hbar t}{m d^2})^2}}
+    \exp\qty[- \frac{\qty(x - \frac{\hbar k_0}{m} t)^2}{d^2 \qty[1 + \qty(\frac{\hbar t}{m d^2})^2]}] \\
 \end{align*}
 \(
-  \text{Not. } \alpha = \frac{\abs{A}^2}{\qty[1+\qty(\frac{\hbar t}{m d^2})^2]^2},
-    \beta = \frac{\hbar k_0}{m} t, \gamma = d^2 \qty[1+\qty(\frac{\hbar t}{m d^2})^2]
+  \text{Not. } \alpha = \frac{\abs{A}^2}{\sqrt{1+\qty(\frac{\hbar t}{m d^2})^2}},
+    \beta = \frac{\hbar k_0}{m} t, \gamma = d^2 \qty[1 + \qty(\frac{\hbar t}{m d^2})^2]
 \)
 \begin{align*}
-  \abs{\Psi(x)}^2 &= \alpha \exp\qty[- \frac{\qty(x^2-\beta)^2}{\gamma}] \\
-  \mean{Q_x} &= \alpha \integral x \exp\qty[- \frac{\qty(x^2-\beta)^2}{\gamma}] dx = \mathcolor{red}{0} \tag{functie impara} \\
-  \mean{Q_x^2} &= \alpha \integral x^2 \exp\qty[- \frac{\qty(x^2-\beta)^2}{\gamma}] dx
+  \abs{\Psi(x)}^2 &= \alpha \exp\qty[- \frac{\qty(x-\beta)^2}{\gamma}] \\
+  \mean{Q_x} &= \alpha \integral x \exp\qty[- \frac{\qty(x-\beta)^2}{\gamma}] dx
+    = \alpha \beta \sqrt{\gamma \pi} = \frac{\hbar k_0}{m} t \\
+  \mean{Q_x^2} &= \alpha \integral x^2 \exp\qty[- \frac{\qty(x-\beta)^2}{\gamma}] dx
+    = \alpha \sqrt{\gamma \pi} \qty(\frac{\gamma}{2} + \beta^2)
+    = \frac{d^2}{2}\qty[1 + \qty(\frac{\hbar t}{m d^2})^2] + \frac{\hbar^2 k_0^2}{m^2} t^2 \\
+  \mean{\Delta Q_x^2} &= \frac{d^2}{2}\qty[1 + \qty(\frac{\hbar t}{m d^2})^2] 
 \end{align*}
 
 \section{\(Q_x\) in reprezentarea impulsurilor}
