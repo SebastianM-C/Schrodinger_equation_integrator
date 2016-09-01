@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -march=native -O2
+CXXFLAGS = -march=native -std=c++11 -O2
 LDFLAGS = -lm -lfftw3 -fopenmp
 
 EXECUTABLE_NAME=main

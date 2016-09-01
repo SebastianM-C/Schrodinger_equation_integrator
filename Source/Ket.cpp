@@ -128,3 +128,35 @@ std::ostream &operator<<(std::ostream &out, const Ket &psi)
 	}
 	return out;
 }
+
+double Ket::mean()
+{
+	auto m = [&](int i) {
+		return r[i]->x * std::norm(r[i]->fx);
+		//return p[i]->x * std::norm(p[i]->fx);
+	};
+	double delta = (r[size - 1]->x - r[0]->x) / size;
+	//double delta = (p[size - 1]->x - p[0]->x) / size;
+	double integral = delta / 2 * (m(0) + m(size - 1));
+	for (unsigned int i = 1; i < size - 1; i++)
+	{
+		integral += m(i) * delta;
+	}
+	return integral;
+}
+
+double Ket::sqMean()
+{
+	auto sqm = [&](int i) {
+		return r[i]->x * r[i]->x * std::norm(r[i]->fx);
+		//return p[i]->x * p[i]->x * std::norm(p[i]->fx);
+	};
+	double delta = (r[size - 1]->x - r[0]->x) / size;
+	//double delta = (p[size - 1]->x - p[0]->x) / size;
+	double integral = delta / 2 * (sqm(0) + sqm(size - 1));
+	for (unsigned int i = 1; i < size - 1; i++)
+	{
+		integral += sqm(i) * delta;
+	}
+	return integral;
+}
