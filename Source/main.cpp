@@ -25,12 +25,24 @@ int main(int argc, char *argv[])
 	in >> a >> b >> simTime >> N >> M;
 	Ket Psi(a, b, simTime, N, M);
 
+	auto variance = [&Psi](bool flag)
+	{
+		return Psi.sqMean(flag) - (Psi.mean(flag) * Psi.mean(flag));
+	};
+	auto uncertainty = [&Psi, &variance]()
+	{
+		return variance(1) * variance(0);
+	};
+	//Psi.print(out, 0);
 	while (t < simTime)
 	{
-		Psi.print(out, 0);
 		Psi.timeEvolution();
-		out << "\n\n";
 		t += (simTime / M);
+		Psi.setMomentum();
+		out << t << ' ' << variance(0) << '\n';
+		//out << t << ' ' << uncertainty() << '\n';
+		//Psi.print(out, 1);
+		//out << "\n\n";
 	}
 
 	return 0;

@@ -82,15 +82,17 @@ void Ket::print(std::ostream &out, int mode) const
 	{
 		for (unsigned int i = 0; i < size; i++)
 		{
-			out << r[i]->x << ' ' << r[i]->fx.real() << ' ' << r[i]->fx.imag() << '\n';
+			out << p[i]->x << ' ' << std::norm(p[i]->fx) << '\n';
 		}
+		return;
 	}
-	if (mode == 2)
+	//if (mode == 2)
 	{
 		for (unsigned int i = 0; i < size; i++)
 		{
-			out << p[i]->x << ' ' << std::norm(p[i]->fx) << '\n';
+			out << r[i]->x << ' ' << r[i]->fx.real() << ' ' << r[i]->fx.imag() << '\n';
 		}
+		return;
 	}
 }
 
@@ -106,7 +108,7 @@ void Ket::timeEvolution()
 	for (unsigned int i = 0; i < size; i++)
 	{
 		memcpy(&(p[i]->fx), &out[i], sizeof(fftw_complex));
-		p[i]->fx *= exp(-I * p[i]->x * p[i]->x * dt / (2. * m * h));
+		p[i]->fx *= exp(-I * p[i]->x * p[i]->x * dt / (2. * m * h)); // apply time evolution operator
 		memcpy(&in[i], &(p[i]->fx), sizeof(fftw_complex));
 	}
 
@@ -115,7 +117,7 @@ void Ket::timeEvolution()
 	for (unsigned int i = 0; i < size; i++)
 	{
 		memcpy(&(r[i]->fx), &out[i], sizeof(fftw_complex));
-		r[i]->fx /= size;
+		r[i]->fx /= size; // normalize
 	}
 }
 
@@ -129,15 +131,38 @@ std::ostream &operator<<(std::ostream &out, const Ket &psi)
 	return out;
 }
 
-double Ket::mean()
+void Ket::setMomentum()
 {
+	for (unsigned int i = 0; i < size; i++)
+	{
+		p[i]->fx /= exp(-I * p[i]->x * p[i]->x * dt / (2. * m * h)); // undo time evolution
+		p[i]->fx /= sqrt(size);																			 // normalize
+	}
+}
+
+// 1 - r, 0 - p
+double Ket::mean(bool choice)
+{
+	Representation **t;
+	int first, last;
+	if (choice)
+	{
+		t = r;
+		first = 0;
+		last = size - 1;
+	}
+	else
+	{
+		t = p;
+		first = size / 2;
+		last = size / 2 - 1;
+	}
+
 	auto m = [&](int i) {
-		return r[i]->x * std::norm(r[i]->fx);
-		//return p[i]->x * std::norm(p[i]->fx);
+		return t[i]->x * std::norm(t[i]->fx);
 	};
-	double delta = (r[size - 1]->x - r[0]->x) / size;
-	//double delta = (p[size - 1]->x - p[0]->x) / size;
-	double integral = delta / 2 * (m(0) + m(size - 1));
+	double delta = (t[last]->x - t[first]->x) / size;
+	double integral = delta / 2 * (m(first) + m(last));
 	for (unsigned int i = 1; i < size - 1; i++)
 	{
 		integral += m(i) * delta;
@@ -145,15 +170,28 @@ double Ket::mean()
 	return integral;
 }
 
-double Ket::sqMean()
+double Ket::sqMean(bool choice)
 {
+	Representation **t;
+	int first, last;
+	if (choice)
+	{
+		t = r;
+		first = 0;
+		last = size - 1;
+	}
+	else
+	{
+		t = p;
+		first = size / 2;
+		last = size / 2 - 1;
+	}
+
 	auto sqm = [&](int i) {
-		return r[i]->x * r[i]->x * std::norm(r[i]->fx);
-		//return p[i]->x * p[i]->x * std::norm(p[i]->fx);
+		return t[i]->x * t[i]->x * std::norm(t[i]->fx);
 	};
-	double delta = (r[size - 1]->x - r[0]->x) / size;
-	//double delta = (p[size - 1]->x - p[0]->x) / size;
-	double integral = delta / 2 * (sqm(0) + sqm(size - 1));
+	double delta = (t[last]->x - t[first]->x) / size;
+	double integral = delta / 2 * (sqm(first) + sqm(last));
 	for (unsigned int i = 1; i < size - 1; i++)
 	{
 		integral += sqm(i) * delta;

@@ -16,8 +16,9 @@ public:
 	void print(std::ostream &, int = 0) const;
 	friend std::ostream &operator<<(std::ostream &, const Ket &);
 	void timeEvolution();
-	double mean();
-	double sqMean();
+	void setMomentum();
+	double mean(bool);
+	double sqMean(bool);
 
 private:
 	Representation **r, **p;
