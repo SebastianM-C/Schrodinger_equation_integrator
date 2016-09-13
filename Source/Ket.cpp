@@ -1,17 +1,18 @@
 #include "Ket.h"
 //#include "advisor-annotate.h"
+#include <iostream>
 
 Ket::Ket(double a, double b, double simTime, unsigned int N, unsigned int M)
 		: size(N)
 {
-	Representation *ri;
+	Representation *qi;
 	Representation *pi;
 	double dx = (b - a) / N;
 	//	double dy = (b - a) / N;
 	//	double dz = (b - a) / N;
 	dt = simTime / M;
 
-	r = new Representation *[N];
+	q = new Representation *[N];
 	p = new Representation *[N];
 
 	in = (fftw_complex *)fftw_malloc(sizeof(fftw_complex) * size);
@@ -20,17 +21,17 @@ Ket::Ket(double a, double b, double simTime, unsigned int N, unsigned int M)
 	pForward = fftw_plan_dft_1d(size, in, out, FFTW_FORWARD, FFTW_ESTIMATE);
 	pBackward = fftw_plan_dft_1d(size, in, out, FFTW_BACKWARD, FFTW_ESTIMATE);
 
-#pragma omp simd
+	//#pragma omp simd
 	for (unsigned int i = 0; i < size; i++)
 	{
-		ri = new (std::nothrow) Representation;
+		qi = new (std::nothrow) Representation;
 		pi = new (std::nothrow) Representation;
 		double x = a + i * dx;
 		//double y = a + i*dx;
 		//double z = a + i*dx;
-		ri->x = x;
-		// ri->y = y;
-		// ri->z = z;
+		qi->x = x;
+		// qi->y = y;
+		// qi->z = z;
 
 		if (i < N / 2)
 		{
@@ -41,9 +42,9 @@ Ket::Ket(double a, double b, double simTime, unsigned int N, unsigned int M)
 			pi->x = -2 * M_PI * (N - i) / (b - a);
 		}
 		// create initial probability distribution
-		ri->fx = 1 / (d * pow(M_PI, (double)0.25)) * exp(I * k0 * x - x * x / (2 * d * d));
+		qi->fx = 1 / (d * pow(M_PI, (double)0.25)) * exp(I * k0 * x - x * x / (2 * d * d));
 
-		r[i] = ri;
+		q[i] = qi;
 		p[i] = pi;
 	}
 }
@@ -52,13 +53,13 @@ Ket::~Ket()
 {
 	for (unsigned int i = 0; i < size; i++)
 	{
-		delete r[i];
+		delete q[i];
 	}
 	for (unsigned int i = 0; i < size; i++)
 	{
 		delete p[i];
 	}
-	delete[] r;
+	delete[] q;
 	delete[] p;
 
 	fftw_destroy_plan(pForward);
@@ -68,31 +69,22 @@ Ket::~Ket()
 }
 
 // DEBUG
-void Ket::print(std::ostream &out, int mode) const
+void Ket::print(std::ostream &out, Choice mode) const
 {
-	if (mode == 0)
+	switch (mode)
 	{
+	case Q:
 		for (unsigned int i = 0; i < size; i++)
 		{
-			out << r[i]->x << ' ' << std::norm(r[i]->fx) << '\n';
+			out << q[i]->x << ' ' << std::norm(q[i]->fx) << '\n';
 		}
-		return;
-	}
-	if (mode == 1)
-	{
+		break;
+	case P:
 		for (unsigned int i = 0; i < size; i++)
 		{
 			out << p[i]->x << ' ' << std::norm(p[i]->fx) << '\n';
 		}
-		return;
-	}
-	//if (mode == 2)
-	{
-		for (unsigned int i = 0; i < size; i++)
-		{
-			out << r[i]->x << ' ' << r[i]->fx.real() << ' ' << r[i]->fx.imag() << '\n';
-		}
-		return;
+		break;
 	}
 }
 
@@ -100,7 +92,7 @@ void Ket::timeEvolution()
 {
 	for (unsigned int i = 0; i < size; i++)
 	{
-		memcpy(&in[i], &(r[i]->fx), sizeof(fftw_complex));
+		memcpy(&in[i], &(q[i]->fx), sizeof(fftw_complex));
 	}
 
 	fftw_execute(pForward);
@@ -116,8 +108,8 @@ void Ket::timeEvolution()
 
 	for (unsigned int i = 0; i < size; i++)
 	{
-		memcpy(&(r[i]->fx), &out[i], sizeof(fftw_complex));
-		r[i]->fx /= size; // normalize
+		memcpy(&(q[i]->fx), &out[i], sizeof(fftw_complex));
+		q[i]->fx /= size; // normalize
 	}
 }
 
@@ -126,28 +118,29 @@ std::ostream &operator<<(std::ostream &out, const Ket &psi)
 	unsigned int N = psi.size;
 	for (unsigned int i = 0; i < N; i++)
 	{
-		out << psi.r[i]->x << ' ' << std::norm(psi.r[i]->fx) << '\n';
+		out << psi.q[i]->x << ' ' << std::norm(psi.q[i]->fx) << '\n';
 	}
 	return out;
 }
 
 void Ket::setMomentum()
 {
+	double delta = (q[size - 1]->x - q[0]->x) / size;
+	//std::cout<<delta<<'\n';
 	for (unsigned int i = 0; i < size; i++)
 	{
-		p[i]->fx /= exp(-I * p[i]->x * p[i]->x * dt / (2. * m * h)); // undo time evolution
-		p[i]->fx /= sqrt(size);																			 // normalize
+		p[i]->fx /= exp(-I * p[i]->x * p[i]->x * dt / (2. * m * h));	// undo time evolution
+		p[i]->fx *= delta / sqrt(2. * M_PI * h);											// normalize
 	}
 }
 
-// 1 - r, 0 - p
-double Ket::mean(bool choice)
+double Ket::norm(Choice choice)
 {
 	Representation **t;
 	int first, last;
-	if (choice)
+	if (choice == Q)
 	{
-		t = r;
+		t = q;
 		first = 0;
 		last = size - 1;
 	}
@@ -158,7 +151,39 @@ double Ket::mean(bool choice)
 		last = size / 2 - 1;
 	}
 
-	auto m = [&](int i) {
+	auto n = [&](int i)
+	{
+		return std::norm(t[i]->fx);
+	};
+	double delta = (t[last]->x - t[first]->x) / size;
+	double integral = delta / 2 * (n(first) + n(last));
+	for (unsigned int i = 1; i < size - 1; i++)
+	{
+		integral += n(i) * delta;
+	}
+
+	return integral;
+}
+
+double Ket::mean(Choice choice)
+{
+	Representation **t;
+	int first, last;
+	if (choice == Q)
+	{
+		t = q;
+		first = 0;
+		last = size - 1;
+	}
+	else
+	{
+		t = p;
+		first = size / 2;
+		last = size / 2 - 1;
+	}
+
+	auto m = [&](int i)
+	{
 		return t[i]->x * std::norm(t[i]->fx);
 	};
 	double delta = (t[last]->x - t[first]->x) / size;
@@ -170,13 +195,13 @@ double Ket::mean(bool choice)
 	return integral;
 }
 
-double Ket::sqMean(bool choice)
+double Ket::sqMean(Choice choice)
 {
 	Representation **t;
 	int first, last;
-	if (choice)
+	if (choice == Q)
 	{
-		t = r;
+		t = q;
 		first = 0;
 		last = size - 1;
 	}
@@ -187,7 +212,8 @@ double Ket::sqMean(bool choice)
 		last = size / 2 - 1;
 	}
 
-	auto sqm = [&](int i) {
+	auto sqm = [&](int i)
+	{
 		return t[i]->x * t[i]->x * std::norm(t[i]->fx);
 	};
 	double delta = (t[last]->x - t[first]->x) / size;

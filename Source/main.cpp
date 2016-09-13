@@ -7,7 +7,7 @@
 #include <iostream>
 
 #include "common.h"
-#include "ket.h"
+#include "Ket.h"
 
 // constants
 const double h = 1;
@@ -25,23 +25,19 @@ int main(int argc, char *argv[])
 	in >> a >> b >> simTime >> N >> M;
 	Ket Psi(a, b, simTime, N, M);
 
-	auto variance = [&Psi](bool flag)
+	auto variance = [&Psi](Choice flag)
 	{
 		return Psi.sqMean(flag) - (Psi.mean(flag) * Psi.mean(flag));
 	};
-	auto uncertainty = [&Psi, &variance]()
-	{
-		return variance(1) * variance(0);
-	};
-	//Psi.print(out, 0);
+
 	while (t < simTime)
 	{
 		Psi.timeEvolution();
 		t += (simTime / M);
 		Psi.setMomentum();
-		out << t << ' ' << variance(0) << '\n';
-		//out << t << ' ' << uncertainty() << '\n';
-		//Psi.print(out, 1);
+		out << t << ' ' << Psi.mean(P) << '\n';
+		//out << t << ' ' << variance(P) << '\n';
+		//Psi.print(out, Q);
 		//out << "\n\n";
 	}
 
