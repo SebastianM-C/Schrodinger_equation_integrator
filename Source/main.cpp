@@ -35,9 +35,9 @@ int main(int argc, char *argv[])
 		Psi.timeEvolution();
 		t += (simTime / M);
 		Psi.setMomentum();
-		out << t << ' ' << Psi.mean(P) << '\n';
-		//out << t << ' ' << variance(P) << '\n';
-		//Psi.print(out, Q);
+		//out << t << ' ' << Psi.norm(P) << '\n';
+		out << t << ' ' << variance(P) * variance(Q) << '\n';
+		//Psi.print(out, P_dbg);
 		//out << "\n\n";
 	}
 
