@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[      5648,        159]
-NotebookOptionsPosition[      5300,        142]
-NotebookOutlinePosition[      5675,        158]
-CellTagsIndexPosition[      5632,        155]
+NotebookDataLength[      6133,        166]
+NotebookOptionsPosition[      5789,        149]
+NotebookOutlinePosition[      6160,        165]
+CellTagsIndexPosition[      6117,        162]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -45,15 +45,14 @@ Cell[BoxData[{
    RowBox[{
     FractionBox[
      SuperscriptBox["A", "2"], 
-     SuperscriptBox[
-      RowBox[{"(", 
-       RowBox[{"1", "+", 
-        SuperscriptBox[
-         RowBox[{"(", 
-          FractionBox[
-           RowBox[{"\[HBar]", " ", "t"}], 
-           RowBox[{"m", " ", 
-            SuperscriptBox["d", "2"]}]], ")"}], "2"]}], ")"}], "2"]], 
+     SqrtBox[
+      RowBox[{"1", "+", 
+       SuperscriptBox[
+        RowBox[{"(", 
+         FractionBox[
+          RowBox[{"\[HBar]", " ", "t"}], 
+          RowBox[{"m", " ", 
+           SuperscriptBox["d", "2"]}]], ")"}], "2"]}]]], 
     RowBox[{"Exp", "[", 
      RowBox[{"-", 
       FractionBox[
@@ -100,7 +99,11 @@ Cell[BoxData[{
    3.677517962205411*^9, 3.6775179701135244`*^9}, 3.6775193951974277`*^9, 
    3.677519466951698*^9, {3.6775737433354015`*^9, 3.6775737491017213`*^9}, {
    3.6775739206749983`*^9, 3.6775739216190357`*^9}, {3.6775739913587074`*^9, 
-   3.677573993390851*^9}, {3.6775740678183804`*^9, 3.677574069123991*^9}}],
+   3.677573993390851*^9}, {3.6775740678183804`*^9, 3.677574069123991*^9}, {
+   3.6821524881987324`*^9, 3.682152640284935*^9}, {3.6821526728328514`*^9, 
+   3.682152739728721*^9}, {3.6821528861522727`*^9, 3.6821529036201863`*^9}, {
+   3.6821529808871465`*^9, 3.682153021042481*^9}, {3.68232021116155*^9, 
+   3.6823202120118876`*^9}}],
 
 Cell[BoxData[
  TagBox[
@@ -109,13 +112,13 @@ Cell[BoxData[
     Typeset`bookmarkList$$ = {}, Typeset`bookmarkMode$$ = "Menu", 
     Typeset`animator$$, Typeset`animvar$$ = 1, Typeset`name$$ = 
     "\"untitled\"", Typeset`specs$$ = {{
-      Hold[$CellContext`t$$], 0, 2}}, Typeset`size$$ = {540., {176., 187.}}, 
+      Hold[$CellContext`t$$], 0, 2}}, Typeset`size$$ = {540., {178., 185.}}, 
     Typeset`update$$ = 0, Typeset`initDone$$, Typeset`skipInitDone$$ = 
-    True, $CellContext`t$956$$ = 0}, 
+    True, $CellContext`t$1511$$ = 0}, 
     DynamicBox[Manipulate`ManipulateBoxes[
      1, StandardForm, "Variables" :> {$CellContext`t$$ = 0}, 
       "ControllerVariables" :> {
-        Hold[$CellContext`t$$, $CellContext`t$956$$, 0]}, 
+        Hold[$CellContext`t$$, $CellContext`t$1511$$, 0]}, 
       "OtherVariables" :> {
        Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
         Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
@@ -125,7 +128,7 @@ Cell[BoxData[
 {$CellContext`x, -3, 5}, PlotRange -> {0, 0.6}], 
       "Specifications" :> {{$CellContext`t$$, 0, 2}}, "Options" :> {}, 
       "DefaultOptions" :> {}],
-     ImageSizeCache->{612., {240., 249.}},
+     ImageSizeCache->{612., {241., 250.}},
      SingleEvaluation->True],
     Deinitialization:>None,
     DynamicModuleValues:>{},
@@ -137,13 +140,17 @@ Cell[BoxData[
    StripOnInput->False],
   Manipulate`InterpretManipulate[1]]], "Output",
  CellChangeTimes->{{3.6775741545008373`*^9, 3.6775741927819357`*^9}, 
-   3.6775742603825836`*^9, {3.6775742986773367`*^9, 3.677574308630455*^9}}]
+   3.6775742603825836`*^9, {3.6775742986773367`*^9, 3.677574308630455*^9}, 
+   3.6821510962443495`*^9, {3.6821526302240705`*^9, 3.682152641318624*^9}, 
+   3.6821526780771346`*^9, {3.682152711006565*^9, 3.682152741332407*^9}, {
+   3.682152887475321*^9, 3.6821529042471037`*^9}, {3.682152981882778*^9, 
+   3.682153022028637*^9}, 3.6823202153188453`*^9}]
 }, Open  ]]
 },
 WindowSize->{958, 988},
 WindowMargins->{{Automatic, -7}, {Automatic, 0}},
 Magnification:>1.5 Inherited,
-FrontEndVersion->"10.3 for Microsoft Windows (64-bit) (December 10, 2015)",
+FrontEndVersion->"11.0 for Microsoft Windows (64-bit) (July 28, 2016)",
 StyleDefinitions->"Default.nb"
 ]
 (* End of Notebook Content *)
@@ -158,11 +165,10 @@ CellTagsIndex->{}
 (*NotebookFileOutline
 Notebook[{
 Cell[CellGroupData[{
-Cell[580, 22, 2955, 80, 392, "Input"],
-Cell[3538, 104, 1746, 35, 546, "Output"]
+Cell[580, 22, 3166, 83, 415, "Input"],
+Cell[3749, 107, 2024, 39, 548, "Output"]
 }, Open  ]]
 }
 ]
 *)
 
-(* End of internal cache information *)

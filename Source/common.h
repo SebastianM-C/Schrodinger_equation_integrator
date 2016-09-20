@@ -3,8 +3,14 @@
 #include <complex>
 
 // constants
-//extern const double PI;
 extern const double h;
 extern const double d;
 extern const double k0;
+extern const double m;
 extern const std::complex<double> I;
+
+enum Choice
+{
+	Q,
+	P
+};
