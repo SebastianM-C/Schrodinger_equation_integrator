@@ -85,6 +85,18 @@ void Ket::print(std::ostream &out, Choice mode) const
 			out << p[i]->x << ' ' << std::norm(p[i]->fx) << '\n';
 		}
 		break;
+	case Q_real_imag:
+		for (unsigned int i = 0; i < size; i++)
+		{
+			out << q[i]->x << ' ' << std::real(q[i]->fx) << ' ' << std::imag(q[i]->fx) << '\n';
+		}
+		break;
+	case P_real_imag:
+		for (unsigned int i = 0; i < size; i++)
+		{
+			out << p[i]->x << ' ' << std::real(p[i]->fx) << ' ' << std::imag(p[i]->fx) << '\n';
+		}
+		break;
 	}
 }
 
@@ -129,8 +141,8 @@ void Ket::setMomentum()
 	//std::cout<<delta<<'\n';
 	for (unsigned int i = 0; i < size; i++)
 	{
-		p[i]->fx /= exp(-I * p[i]->x * p[i]->x * dt / (2. * m * h));	// undo time evolution
-		p[i]->fx *= delta / sqrt(2. * M_PI * h);											// normalize
+		p[i]->fx /= exp(-I * p[i]->x * p[i]->x * dt / (2. * m * h)); // undo time evolution
+		p[i]->fx *= delta / sqrt(2. * M_PI * h);										 // normalize
 	}
 }
 

@@ -12,5 +12,7 @@ extern const std::complex<double> I;
 enum Choice
 {
 	Q,
-	P
+	P,
+	Q_real_imag,
+	P_real_imag
 };
