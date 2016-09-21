@@ -22,10 +22,10 @@ public:
 	double sqMean(Choice);
 
 private:
-	Representation **q, **p;
+	Representation q, p;
 	double dt;
 	const unsigned int size;
 	fftw_plan pForward;
 	fftw_plan pBackward;
-	fftw_complex *in, *out;
+	//fftw_complex *in, *out;
 };
