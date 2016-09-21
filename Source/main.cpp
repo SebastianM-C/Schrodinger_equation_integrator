@@ -37,8 +37,8 @@ int main(int argc, char *argv[])
 		Psi.setMomentum();
 		//out << t << ' ' << Psi.norm(P) << '\n';
 		out << t << ' ' << variance(P) * variance(Q) << '\n';
-		//Psi.print(out, P_dbg);
-		//out << "\n\n";
+		//Psi.print(out, P_real_imag);
+		out << "\n\n";
 	}
 
 	return 0;
