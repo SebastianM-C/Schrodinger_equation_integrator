@@ -3,7 +3,7 @@
 #include <iostream>
 
 Ket::Ket(double a, double b, double simTime, unsigned int N, unsigned int M)
-		: q(N), p(N), size(N)
+		: q(N), p(N), size(N), invSize(1. / N)
 {
 	double dx = (b - a) / N;
 	//	double dy = (b - a) / N;
@@ -77,6 +77,7 @@ void Ket::print(std::ostream &out, Choice mode) const
 
 void Ket::timeEvolution()
 {
+	//TODO: add potential energy operator
 
 	fftw_execute(pForward);
 
@@ -115,25 +116,25 @@ void Ket::setMomentum()
 
 double Ket::norm(Choice choice)
 {
-	Representation t(size);
+	Representation *t;
 	int first, last;
 	if (choice == Q)
 	{
-		t = q;
+		t = &q;
 		first = 0;
 		last = size - 1;
 	}
 	else
 	{
-		t = p;
+		t = &p;
 		first = size / 2;
 		last = size / 2 - 1;
 	}
 
 	auto n = [&](int i) {
-		return std::norm(t.f[i]);
+		return std::norm(t->f[i]);
 	};
-	double delta = (t.x[last] - t.x[first]) / size;
+	double delta = (t->x[last] - t->x[first]) / size;
 	double integral = delta / 2 * (n(first) + n(last));
 	for (unsigned int i = 1; i < size - 1; i++)
 	{
@@ -145,25 +146,25 @@ double Ket::norm(Choice choice)
 
 double Ket::mean(Choice choice)
 {
-	Representation t(size);
+	Representation *t;
 	int first, last;
 	if (choice == Q)
 	{
-		t = q;
+		t = &q;
 		first = 0;
 		last = size - 1;
 	}
 	else
 	{
-		t = p;
+		t = &p;
 		first = size / 2;
 		last = size / 2 - 1;
 	}
 
 	auto m = [&](int i) {
-		return t.x[i] * std::norm(t.f[i]);
+		return t->x[i] * std::norm(t->f[i]);
 	};
-	double delta = (t.x[last] - t.x[first]) / size;
+	double delta = (t->x[last] - t->x[first]) / size;
 	double integral = delta / 2 * (m(first) + m(last));
 	for (unsigned int i = 1; i < size - 1; i++)
 	{
@@ -174,25 +175,25 @@ double Ket::mean(Choice choice)
 
 double Ket::sqMean(Choice choice)
 {
-	Representation t(size);
+	Representation *t;
 	int first, last;
 	if (choice == Q)
 	{
-		t = q;
+		t = &q;
 		first = 0;
 		last = size - 1;
 	}
 	else
 	{
-		t = p;
+		t = &p;
 		first = size / 2;
 		last = size / 2 - 1;
 	}
 
 	auto sqm = [&](int i) {
-		return t.x[i] * t.x[i] * std::norm(t.f[i]);
+		return t->x[i] * t->x[i] * std::norm(t->f[i]);
 	};
-	double delta = (t.x[last] - t.x[first]) / size;
+	double delta = (t->x[last] - t->x[first]) / size;
 	double integral = delta / 2 * (sqm(first) + sqm(last));
 	for (unsigned int i = 1; i < size - 1; i++)
 	{

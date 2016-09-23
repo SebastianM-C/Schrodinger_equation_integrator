@@ -3,11 +3,10 @@
  *
  */
 
+#include "Ket.h"
+#include "common.h"
 #include <fstream>
 #include <iostream>
-
-#include "common.h"
-#include "Ket.h"
 
 // constants
 const double h = 1;
@@ -25,8 +24,7 @@ int main(int argc, char *argv[])
 	in >> a >> b >> simTime >> N >> M;
 	Ket Psi(a, b, simTime, N, M);
 
-	auto variance = [&Psi](Choice flag)
-	{
+	auto variance = [&Psi](Choice flag) {
 		return Psi.sqMean(flag) - (Psi.mean(flag) * Psi.mean(flag));
 	};
 
