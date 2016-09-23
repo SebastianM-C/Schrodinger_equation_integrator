@@ -1,12 +1,12 @@
 #pragma once
 
 #define _USE_MATH_DEFINES
-#include <cmath>
-#include <ostream>
-#include <cstring>
 #include "Representation.h"
 #include "common.h"
+#include <cmath>
+#include <cstring>
 #include <fftw3.h>
+#include <ostream>
 
 class Ket
 {
@@ -25,7 +25,8 @@ private:
 	Representation q, p;
 	double dt;
 	const unsigned int size;
+	const double invSize;			// 1/N
+	//std::complex<double> *eV; // e^(V)
 	fftw_plan pForward;
 	fftw_plan pBackward;
-	//fftw_complex *in, *out;
 };
