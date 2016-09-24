@@ -6,7 +6,7 @@ DEP = $(BIN)/.d
 $(shell mkdir -p $(DEP) >/dev/null)
 
 CXX = g++
-CXXFLAGS = -march=native -std=c++11 -g -O3 -fopt-info
+CXXFLAGS = -march=native -std=c++11 -g -O3 -fopt-info -fopenmp -ffast-math
 LDFLAGS = -lm -lfftw3 -fopenmp
 DEPFLAGS = -MT $@ -MMD -MP -MF $(DEP)/$*.Td
 
@@ -49,7 +49,7 @@ $(DEP)/%.d: ;
 .PRECIOUS: $(DEP)/%.d
 
 input : $(BIN)/$(INPUT_FILES)
-$(BIN)/$(INPUT_FILES): $(INPUT_FILES)
+$(BIN)/$(INPUT_FILES) : $(INPUT_FILES)
 		@cp $(INPUT_FILES) $(BIN)
 		@echo "Copied input"
 

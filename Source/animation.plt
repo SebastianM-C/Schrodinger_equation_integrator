@@ -1,10 +1,10 @@
 cd "../Bin"
-set terminal gif animate delay 1
+set terminal gif animate delay 2
 set output 'output.gif'
 stats 'output.dat' nooutput
-set xrange [-10:10]
-set yrange [0:0.6]
+set xrange [-20:20]
+set yrange [0:0.9]
 
 do for [i=1:int(STATS_blocks)] {
-	plot 'output.dat' index (i-1) with lines
+	plot 'output.dat' index (i-1) with lines title "|Psi|^2"
 }
