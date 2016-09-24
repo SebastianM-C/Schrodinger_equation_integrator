@@ -6,7 +6,7 @@ DEP = $(BIN)/.d
 $(shell mkdir -p $(DEP) >/dev/null)
 
 CXX = g++
-CXXFLAGS = -march=native -std=c++11 -g -O3 -fopt-info -fopenmp -ffast-math
+CXXFLAGS = -march=native -std=c++11 -Wall -g -O3 -fopt-info -fopenmp -ffast-math
 LDFLAGS = -lm -lfftw3 -fopenmp
 DEPFLAGS = -MT $@ -MMD -MP -MF $(DEP)/$*.Td
 

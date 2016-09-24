@@ -8,6 +8,7 @@ extern const double d;
 extern const double k0;
 extern const double m;
 extern const double inv2mh;
+extern const double invsqrt2pih;
 extern const std::complex<double> I;
 
 enum Choice
