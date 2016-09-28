@@ -1,5 +1,5 @@
 ﻿/**
- * Schrodinger equation integrator
+ *	Schrodinger equation integrator
  *
  */
 
@@ -27,22 +27,22 @@ int main(int argc, char *argv[])
 	Ket Psi(a, b, simTime, N, M);
 	dt = simTime / M;
 
-	auto variance = [&Psi](Choice flag)
+	auto variance = [&Psi](Choice choice)
 	{
-		return Psi.sqMean(flag) - (Psi.mean(flag) * Psi.mean(flag));
+		return Psi.integrate(choice, 2) - (Psi.integrate(choice, 1) * Psi.integrate(choice, 1));
 	};
 
-	Psi.setPotential();
+	Psi.halfStep(Forward);
 	while (t < simTime)
 	{
 		Psi.timeEvolution();
 		t += dt;
-		out << t << ' ' << Psi.norm(Q) << '\n';
+		//out << t << ' ' << Psi.integrate(Q, 0) << '\n';
 		//out << t << ' ' << variance(P) * variance(Q) << '\n';
-		//Psi.print(out, Q);
-		//out << "\n\n";
+		Psi.print(out, Q);
+		out << "\n\n";
 	}
-	Psi.setPotential();
+	Psi.halfStep(Backward);
 
 	return 0;
 }

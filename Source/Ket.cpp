@@ -1,5 +1,4 @@
 #include "Ket.h"
-//#include "advisor-annotate.h"
 #include <iostream>
 
 Ket::Ket(double a, double b, double simTime, unsigned int N, unsigned int M)
@@ -10,10 +9,14 @@ Ket::Ket(double a, double b, double simTime, unsigned int N, unsigned int M)
 	//	double dz = (b - a) / N;
 	dt = simTime / M;
 
-	pForward = fftw_plan_dft_1d(size, reinterpret_cast<fftw_complex *>(q.f), reinterpret_cast<fftw_complex *>(p.f), FFTW_FORWARD, FFTW_ESTIMATE);
-	pBackward = fftw_plan_dft_1d(size, reinterpret_cast<fftw_complex *>(p.f), reinterpret_cast<fftw_complex *>(q.f), FFTW_BACKWARD, FFTW_ESTIMATE);
+	eV = new std::complex<double>[N]; // e^(-i/h V dt)
+	eP = new std::complex<double>[N]; // e^(-i/2mh p^2 dt)
 
-	//#pragma omp simd
+	pForward = fftw_plan_dft_1d(size, reinterpret_cast<fftw_complex *>(q.f),
+															reinterpret_cast<fftw_complex *>(p.f), FFTW_FORWARD, FFTW_ESTIMATE);
+	pBackward = fftw_plan_dft_1d(size, reinterpret_cast<fftw_complex *>(p.f),
+															 reinterpret_cast<fftw_complex *>(q.f), FFTW_BACKWARD, FFTW_ESTIMATE);
+
 	for (unsigned int i = 0; i < size; i++)
 	{
 		double x = a + i * dx;
@@ -34,13 +37,29 @@ Ket::Ket(double a, double b, double simTime, unsigned int N, unsigned int M)
 		q.f[i] = 1 / (d * pow(M_PI, (double)0.25)) * exp(I * k0 * x - x * x / (2 * d * d));
 
 		p.f[i] = 0;
+
+		// potential energy operator values
+		eV[i] = exp(-I / h * V(x) * dt);
+		// kinetic energy operator values
+		eP[i] = exp(-I * p.x[i] * p.x[i] * dt * inv2mh);
 	}
 }
 
 Ket::~Ket()
 {
+	delete[] eV;
+	delete[] eP;
 	fftw_destroy_plan(pForward);
 	fftw_destroy_plan(pBackward);
+}
+
+// potential energy
+double Ket::V(double x)
+{
+	double x0 = 2, V0 = 1.5;
+	if (x < x0)
+		return 0;
+	return V0;
 }
 
 // DEBUG
@@ -75,22 +94,21 @@ void Ket::print(std::ostream &out, Choice mode) const
 	}
 }
 
+// Integrate the Schrodinger equation using the split operator method
 void Ket::timeEvolution()
 {
-	//TODO: add potential energy operator
-
-	fftw_execute(pForward);
-
+	fftw_execute(pForward); // Fourier transform into momentum space
+#pragma omp simd
 	for (unsigned int i = 0; i < size; i++)
 	{
-		p.f[i] *= exp(-I * p.x[i] * p.x[i] * dt / (2. * m * h)); // apply time evolution operator
+		p.f[i] *= eP[i]; // apply kinetic energy operator
 	}
 
-	fftw_execute(pBackward);
-
+	fftw_execute(pBackward); // Fourier transform back into position space
+#pragma omp simd
 	for (unsigned int i = 0; i < size; i++)
 	{
-		q.f[i] /= size; // normalize
+		q.f[i] *= eV[i] * invSize; // apply potential energy operator and normalize
 	}
 }
 
@@ -104,20 +122,33 @@ std::ostream &operator<<(std::ostream &out, const Ket &psi)
 	return out;
 }
 
+void Ket::halfStep(Sign sign)
+{ // Forward = 0, Backward = 2
+	//#pragma omp simd
+	for (unsigned int i = 0; i < size; i++)
+	{ // advance half step for -1 or go back for 1
+		std::complex<double> ev = exp(((double)sign - 1) * I / h * V(q.x[i]) * 0.5 * dt);
+		q.f[i] *= ev;
+	}
+}
+
 void Ket::setMomentum()
 {
 	double delta = (q.x[size - 1] - q.x[0]) / size;
+#pragma omp simd
 	for (unsigned int i = 0; i < size; i++)
 	{
-		p.f[i] /= exp(-I * p.x[i] * p.x[i] * dt / (2. * m * h)); // undo time evolution
-		p.f[i] *= delta / sqrt(2. * M_PI * h);									 // normalize
+		p.f[i] *= exp(I * p.x[i] * p.x[i] * dt * inv2mh); // undo time evolution
+		p.f[i] *= delta * invsqrt2pih;										// normalize
 	}
 }
 
-double Ket::norm(Choice choice)
+// compute integral x^power * choice(x) dx
+double Ket::integrate(Choice choice, unsigned int power)
 {
 	Representation *t;
 	int first, last;
+	halfStep(Backward);
 	if (choice == Q)
 	{
 		t = &q;
@@ -126,78 +157,29 @@ double Ket::norm(Choice choice)
 	}
 	else
 	{
+		setMomentum();
 		t = &p;
 		first = size / 2;
 		last = size / 2 - 1;
 	}
 
-	auto n = [&](int i) {
-		return std::norm(t->f[i]);
+	auto f = [&](int i)
+	{
+		double x = 1;
+		for (unsigned int j = 0; j < power; j++)
+		{
+			x *= t->x[i];
+		}
+		return x * std::norm(t->f[i]);
 	};
 	double delta = (t->x[last] - t->x[first]) / size;
-	double integral = delta / 2 * (n(first) + n(last));
+	double integral = delta / 2 * (f(first) + f(last));
+#pragma omp simd
 	for (unsigned int i = 1; i < size - 1; i++)
 	{
-		integral += n(i) * delta;
+		integral += f(i) * delta;
 	}
 
-	return integral;
-}
-
-double Ket::mean(Choice choice)
-{
-	Representation *t;
-	int first, last;
-	if (choice == Q)
-	{
-		t = &q;
-		first = 0;
-		last = size - 1;
-	}
-	else
-	{
-		t = &p;
-		first = size / 2;
-		last = size / 2 - 1;
-	}
-
-	auto m = [&](int i) {
-		return t->x[i] * std::norm(t->f[i]);
-	};
-	double delta = (t->x[last] - t->x[first]) / size;
-	double integral = delta / 2 * (m(first) + m(last));
-	for (unsigned int i = 1; i < size - 1; i++)
-	{
-		integral += m(i) * delta;
-	}
-	return integral;
-}
-
-double Ket::sqMean(Choice choice)
-{
-	Representation *t;
-	int first, last;
-	if (choice == Q)
-	{
-		t = &q;
-		first = 0;
-		last = size - 1;
-	}
-	else
-	{
-		t = &p;
-		first = size / 2;
-		last = size / 2 - 1;
-	}
-
-	auto sqm = [&](int i) {
-		return t->x[i] * t->x[i] * std::norm(t->f[i]);
-	};
-	double delta = (t->x[last] - t->x[first]) / size;
-	double integral = delta / 2 * (sqm(first) + sqm(last));
-	for (unsigned int i = 1; i < size - 1; i++)
-	{
-		integral += sqm(i) * delta;
-	}
+	halfStep(Forward);
 	return integral;
 }

@@ -16,17 +16,18 @@ public:
 	void print(std::ostream &, Choice = Q) const;
 	friend std::ostream &operator<<(std::ostream &, const Ket &);
 	void timeEvolution();
-	void setMomentum();
-	double norm(Choice);
-	double mean(Choice);
-	double sqMean(Choice);
+	void halfStep(Sign sign);
+	double integrate(Choice, unsigned int);
 
 private:
 	Representation q, p;
+	double V(double);
+	std::complex<double> *eV; // e^(-i/h V dt)
+	std::complex<double> *eP; // e^(-i/2mh p^2 dt)
 	double dt;
 	const unsigned int size;
-	const double invSize;			// 1/N
-	//std::complex<double> *eV; // e^(V)
+	const double invSize; // 1/N
+	void setMomentum();
 	fftw_plan pForward;
 	fftw_plan pBackward;
 };

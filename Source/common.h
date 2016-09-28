@@ -18,3 +18,9 @@ enum Choice
 	Q_real_imag,
 	P_real_imag
 };
+
+enum Sign
+{
+	Forward,
+	Backward = 2
+};
